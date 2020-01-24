@@ -1,0 +1,34 @@
+
+Installation Guide
+	Open Run command.
+	cd ShopFaceCount
+	sh ./install.sh
+
+Run Guide
+	Open Run command
+	cd ShopFaceCount
+	sh ./run.sh
+
+Config.ini
+	- camera-id means the number of camera
+	  This script will create a database table automatically named as recogtion_{camera-id}
+	  And it will output data in that table.
+	
+	- [postgresql] option
+		Here set the credentials for PostgreSql
+
+Files
+	Main.py -	The main Script file ( DB manage ment, most functions implemented here)
+	config.ini - config file ( DB configuration)
+	wide_resnet.py, yolo_utils.py - core functions were implemented here
+	Trained model/ Inception-v3.h5 - emotion detection model.
+					ResNet-50.h5 - emotion detection model.
+					weights.28-3.73.hdf5 - age, gender detection model.
+
+Develop Language:
+	Python 3.6
+Tools:
+	Visual Code, Pycharm.
+	You can use any one of them.
+Libraries:
+	opencv-python, tensor-flow, face_recognition, psycopg2.
