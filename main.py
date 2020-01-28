@@ -116,8 +116,8 @@ if __name__ == '__main__':
     warnings.filterwarnings('ignore')
     config = configparser.ConfigParser()
     config.read('config.ini')
-    #videoUrl = 0 #getVideoUrl(config)
-    videoUrl = config['INPUT']['VideoURL']
+    videoUrl = 0 #getVideoUrl(config)
+    # videoUrl = config['INPUT']['VideoURL']
     cameraid = config['DEFAULT']['camera-id']
 
     if writeDb_flag is True:
@@ -170,8 +170,8 @@ if __name__ == '__main__':
             if not grabbed:
                 break
             frame_num += 1
-            if(frame_num % 5 !=0):
-                continue
+            # if(frame_num % 5 !=0):
+            #     continue
             start = time.time()
 
             frame = image.copy()
