@@ -216,7 +216,7 @@ if __name__ == '__main__':
 
         min_face_size = int(config['INPUT']['min_face_size'])
 
-        face_manager = Face_collect(mask_b,mask_c,  min_access_time=5, min_leave_time= 5, min_face = 30)
+        face_manager = Face_collect(mask_b,mask_c,  min_access_time=5, min_leave_time= 5, min_face = min_face_size)
 
         while True:
             start = time.time()
@@ -234,27 +234,30 @@ if __name__ == '__main__':
 
             if writeDb_flag is True:
                 # Get last id
-                query = """select max(id) from recognition2_""" + str(cameraid)
-                cur.execute(query)
-                result = cur.fetchall()
-                nid = result[0][0]
-                if not nid:
-                    nid = 1
-                else:
-                    nid = nid + 1
-                if remove_list is not None:
-                    for one in remove_list:
-                        # insert record to database
-                        insert_query = """ INSERT INTO recognition2_"""+str(cameraid)+""" (id, camera_id, frame_no, face_id, age, gender, emotion, access_time, start_time, stop_time)\
-                                                                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-                        delta = one.get_access_time_str()
-                        record_to_insert = (nid, cameraid, frame_num, one.id, int(one.age), one.gen, '{'+ one.emotion +'}', '{' + delta + '}', one.start, one.stop)
-                        cur.execute(insert_query, record_to_insert)
-                        conn.commit()
+                try:
+                    query = """select max(id) from recognition2_""" + str(cameraid)
+                    cur.execute(query)
+                    result = cur.fetchall()
+                    nid = result[0][0]
+                    if not nid:
+                        nid = 1
+                    else:
+                        nid = nid + 1
+                    if remove_list is not None:
+                        for one in remove_list:
+                            # insert record to database
+                            insert_query = """ INSERT INTO recognition2_"""+str(cameraid)+""" (id, camera_id, frame_no, face_id, age, gender, emotion, access_time, start_time, stop_time)\
+                                                                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                            delta = one.get_access_time_str()
+                            record_to_insert = (nid, cameraid, frame_num, one.id, int(one.age), one.gen, '{'+ one.emotion +'}', '{' + delta + '}', one.start, one.stop)
+                            cur.execute(insert_query, record_to_insert)
+                            conn.commit()
 
-                        inserted_record = 'inserted item: {} {} {} {} {} {} {} {} {} {}'.format(nid, cameraid, frame_num, one.id, one.age, one.gen, one.emotion, delta, one.start, one.stop)
-                        print(inserted_record)
-                        nid += 1
+                            inserted_record = 'inserted item: {} {} {} {} {} {} {} {} {} {}'.format(nid, cameraid, frame_num, one.id, one.age, one.gen, one.emotion, delta, one.start, one.stop)
+                            print(inserted_record)
+                            nid += 1
+                except:
+                    pass
 
             # If one day pass, init today_cnt
             now_date = datetime.datetime.now().date()
