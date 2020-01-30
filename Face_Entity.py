@@ -57,7 +57,7 @@ class Face_Entity:
 
 # management class of Face_Entity array
 class Face_collect:
-    def __init__( self,  mask_b, mask_c, min_access_time = 5,  min_leave_time = 5, min_face = 30):
+    def __init__( self,  mask_b, mask_c, nfaces, min_access_time = 5,  min_leave_time = 5, min_face = 0):
 
         self.faces_collects = []    #  list of face_entity
         self.mask_b = mask_b.copy() # mask of buyer's region
@@ -67,7 +67,7 @@ class Face_collect:
         self.faces = []
         self.cur_id = 1             # start face_id
         self.nFaces = 0
-        self.nTotalCunt = 0
+        self.nTotalCunt = nfaces
         # if one person accss the chier more than this time, determine this person as a buyer
         self.min_access_time = min_access_time
         # if some face don't occur more than this time in mask region, determin this person go away
@@ -167,7 +167,6 @@ class Face_collect:
                 # check size
                 if self.is_small_face(bbox):
                     continue
-                self.nTotalCunt += 1
                 # check cashier
                 if self.is_cashier(x1, y1, x2, y2):
                     result = face_recognition.compare_faces(self.faces_cashier, face)

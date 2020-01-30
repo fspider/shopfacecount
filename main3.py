@@ -216,7 +216,7 @@ if __name__ == '__main__':
 
         min_face_size = int(config['INPUT']['min_face_size'])
 
-        face_manager = Face_collect(mask_b,mask_c,  min_access_time=5, min_leave_time= 5, min_face = min_face_size)
+        face_manager = Face_collect(mask_b,mask_c,  nfaces, min_access_time=5, min_leave_time= 5, min_face = min_face_size)
 
         while True:
             start = time.time()
