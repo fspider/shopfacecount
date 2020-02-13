@@ -256,7 +256,8 @@ if __name__ == '__main__':
                             inserted_record = 'inserted item: {} {} {} {} {} {} {} {} {} {}'.format(nid, cameraid, frame_num, one.id, one.age, one.gen, one.emotion, delta, one.start, one.stop)
                             print(inserted_record)
                             nid += 1
-                except:
+                except Exception as error:
+                    print('Exception : ' + repr(error))
                     pass
 
             # If one day pass, init today_cnt
