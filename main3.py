@@ -150,9 +150,10 @@ def reconnet_DB(config):
                                 password=config['postgresql']['password'],
                                 port=config['postgresql']['port'])
         cur = conn.cursor()    
-        return cur
-    except:
+        return [conn, cur]
+    except Exception as error:
         print('Reconnecting to the PostgreSQL database Failed...')
+        print('Exception : ' + repr(error)) :
         return 0
 
 # This is the main entry Function
@@ -272,8 +273,18 @@ if __name__ == '__main__':
                             print(inserted_record)
                             nid += 1
                 except Exception as error:
+                    try:
+                        cur.close()
+                    except:
+                        pass
+
+                    try:
+                        conn.close()
+                    except:
+                        pass
+
                     print('Exception : ' + repr(error))
-                    cur = reconnet_DB(config)
+                    [conn, cur] = reconnet_DB(config)
                     pass
 
             # If one day pass, init today_cnt
