@@ -172,7 +172,7 @@ class Face_collect:
                     result = face_recognition.compare_faces(self.faces_cashier, face)
                     if len(result)== 0 or max(result) == 0: # new cashier
                         print('find cashier face in cashier region' )
-                        if(len(self.faces_cashier) < 30) :
+                        if(len(self.faces_cashier) < 5) :
                             self.faces_cashier.append(face)
                         drawRectangle(frame, (x1, y1), (x2, y2), (106, 15, 206), 2)
                         cv.putText(frame, 'cashier', (x1, int(y1 - 10)), 0, 5e-3 * 100, (255, 0, 0), 2)

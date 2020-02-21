@@ -140,6 +140,21 @@ def create_table2(cur, conn, cameraid):
 def draw_region(frame, nds, color):
     cv.fillPoly(frame, nds, color)
 
+def reconnet_DB(config):
+    try:
+        # Connect to Postgresql Database
+        print('Reconnecting to the PostgreSQL database...')
+        conn = psycopg2.connect(host=config['postgresql']['host'],
+                                database=config['postgresql']['database'],
+                                user=config['postgresql']['user'],
+                                password=config['postgresql']['password'],
+                                port=config['postgresql']['port'])
+        cur = conn.cursor()    
+        return cur
+    except:
+        print('Reconnecting to the PostgreSQL database Failed...')
+        return 0
+
 # This is the main entry Function
 if __name__ == '__main__':
 
@@ -258,6 +273,7 @@ if __name__ == '__main__':
                             nid += 1
                 except Exception as error:
                     print('Exception : ' + repr(error))
+                    cur = reconnet_DB(config)
                     pass
 
             # If one day pass, init today_cnt
