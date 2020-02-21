@@ -153,7 +153,7 @@ def reconnet_DB(config):
         return [conn, cur]
     except Exception as error:
         print('Reconnecting to the PostgreSQL database Failed...')
-        print('Exception : ' + repr(error)) :
+        print('Exception : ' + repr(error))
         return 0
 
 # This is the main entry Function
