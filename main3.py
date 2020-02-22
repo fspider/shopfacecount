@@ -283,9 +283,18 @@ if __name__ == '__main__':
                     except:
                         pass
 
-                    print('Exception : ' + repr(error))
-                    [conn, cur] = reconnet_DB(config)
-                    pass
+                    try:
+                        # Connect to Postgresql Database
+                        print('Reconnecting to the PostgreSQL database...')
+                        conn = psycopg2.connect(host=config['postgresql']['host'],
+                                                database=config['postgresql']['database'],
+                                                user=config['postgresql']['user'],
+                                                password=config['postgresql']['password'],
+                                                port=config['postgresql']['port'])
+                        cur = conn.cursor()    
+                    except Exception as error:
+                        print('Reconnecting to the PostgreSQL database Failed...')
+                        print('Exception : ' + repr(error))
 
             # If one day pass, init today_cnt
             now_date = datetime.datetime.now().date()
